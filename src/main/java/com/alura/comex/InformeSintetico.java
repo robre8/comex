@@ -22,6 +22,7 @@ public class InformeSintetico {
 
     public InformeSintetico(ArrayList<Pedido> pedidos) {
 
+        totalDePedidosRealizados = pedidos.size();
 
         for (int i = 0; i < pedidos.size(); i++) {
             Pedido pedidoActual = pedidos.get(i);
@@ -30,17 +31,17 @@ public class InformeSintetico {
                 break;
             }
 
-            if (pedidoMasBarato == null || pedidoActual.getPrecio().multiply(new BigDecimal(pedidoActual.getCantidad())).compareTo(pedidoMasBarato.getPrecio().multiply(new BigDecimal(pedidoMasBarato.getCantidad()))) < 0) {
+            if (pedidoMasBarato == null || pedidoActual.isMasBaratoQue(pedidoMasBarato)) {
                 pedidoMasBarato = pedidoActual;
             }
 
-            if (pedidoMasCaro == null || pedidoActual.getPrecio().multiply(new BigDecimal(pedidoActual.getCantidad())).compareTo(pedidoMasCaro.getPrecio().multiply(new BigDecimal(pedidoMasCaro.getCantidad()))) > 0) {
+            if (pedidoMasCaro == null || pedidoActual.isMasCaroQue(pedidoMasCaro)) {
                 pedidoMasCaro = pedidoActual;
             }
 
-            montoDeVentas = montoDeVentas.add(pedidoActual.getPrecio().multiply(new BigDecimal(pedidoActual.getCantidad())));
+            montoDeVentas = montoDeVentas.add(pedidoActual.getValorTotal());
             totalDeProductosVendidos += pedidoActual.getCantidad();
-            totalDePedidosRealizados++;
+
 
             if (!categoriasProcesadas.contains(pedidoActual.getCategoria())) {
                 totalDeCategorias++;
