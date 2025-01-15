@@ -36,8 +36,14 @@ public class InformeSintetico {
                 .mapToInt(Pedido::getCantidad)
                 .sum();
 
+        totalDeCategorias = (int) pedidos.stream()
+                .filter(pedido -> pedido != null)
+                .map(Pedido::getCategoria)
+                .distinct()
+                .count();
+
         pedidos.stream()
-                .filter(pedido -> pedido != null) // Filtramos los pedidos nulos
+                .filter(pedido -> pedido != null)
                 .forEach(pedidoActual -> {
 
 
@@ -48,11 +54,7 @@ public class InformeSintetico {
                     if (pedidoMasCaro == null || pedidoActual.isMasCaroQue(pedidoMasCaro)) {
                         pedidoMasCaro = pedidoActual;
                     }
-
-                    categoriasProcesadas.add(pedidoActual.getCategoria());
                 });
-
-        totalDeCategorias = categoriasProcesadas.size();
     }
 
 
