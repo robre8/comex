@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 public class Pedido {
 
+
     private String categoria;
     private String producto;
     private String cliente;
@@ -21,6 +22,7 @@ public class Pedido {
         this.precio = precio;
         this.cantidad = cantidad;
         this.fecha = fecha;
+
     }
 
     public String getCategoria() {
@@ -46,6 +48,15 @@ public class Pedido {
     public LocalDate getFecha() {
         return fecha;
     }
+
+    public BigDecimal getValorTotal() { return this.precio.multiply(new BigDecimal(this.cantidad));}
+
+    public boolean isMasBaratoQue(Pedido otroPedido) { return this.getValorTotal().compareTo(otroPedido.getValorTotal()) < 0;}
+
+    public boolean isMasCaroQue(Pedido otroPedido) {return this.getValorTotal().compareTo(otroPedido.getValorTotal()) > 0;}
+
+
+
 
     @Override
     public String toString() {
