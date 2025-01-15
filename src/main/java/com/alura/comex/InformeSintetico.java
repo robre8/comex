@@ -22,6 +22,7 @@ public class InformeSintetico {
 
     public InformeSintetico(ArrayList<Pedido> pedidos) {
 
+
         for (int i = 0; i < pedidos.size(); i++) {
             Pedido pedidoActual = pedidos.get(i);
 
