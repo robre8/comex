@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Locale;
 
@@ -42,19 +43,15 @@ public class InformeSintetico {
                 .distinct()
                 .count();
 
-        pedidos.stream()
+        pedidoMasBarato = pedidos.stream()
                 .filter(pedido -> pedido != null)
-                .forEach(pedidoActual -> {
+                .min(Comparator.comparing(Pedido::getValorTotal))
+                .orElse(null);
 
-
-                    if (pedidoMasBarato == null || pedidoActual.isMasBaratoQue(pedidoMasBarato)) {
-                        pedidoMasBarato = pedidoActual;
-                    }
-
-                    if (pedidoMasCaro == null || pedidoActual.isMasCaroQue(pedidoMasCaro)) {
-                        pedidoMasCaro = pedidoActual;
-                    }
-                });
+        pedidoMasCaro = pedidos.stream()
+                .filter(pedido -> pedido != null)
+                .max(Comparator.comparing(Pedido::getValorTotal))
+                .orElse(null);
     }
 
 
