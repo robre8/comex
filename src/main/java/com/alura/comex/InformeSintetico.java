@@ -10,9 +10,9 @@ import java.util.Locale;
 public class InformeSintetico {
 
 
-    private int totalDeProductosVendidos;
-    private int totalDePedidosRealizados;
-    private BigDecimal montoDeVentas = BigDecimal.ZERO;
+    private final int totalDeProductosVendidos;
+    private final int totalDePedidosRealizados;
+    private final BigDecimal montoDeVentas;
     private Pedido pedidoMasBarato;
     private Pedido pedidoMasCaro;
 
@@ -22,33 +22,39 @@ public class InformeSintetico {
 
     public InformeSintetico(ArrayList<Pedido> pedidos) {
 
+
         totalDePedidosRealizados = pedidos.size();
 
-        for (int i = 0; i < pedidos.size(); i++) {
-            Pedido pedidoActual = pedidos.get(i);
-
-            if (pedidoActual == null) {
-                break;
-            }
-
-            if (pedidoMasBarato == null || pedidoActual.isMasBaratoQue(pedidoMasBarato)) {
-                pedidoMasBarato = pedidoActual;
-            }
-
-            if (pedidoMasCaro == null || pedidoActual.isMasCaroQue(pedidoMasCaro)) {
-                pedidoMasCaro = pedidoActual;
-            }
-
-            montoDeVentas = montoDeVentas.add(pedidoActual.getValorTotal());
-            totalDeProductosVendidos += pedidoActual.getCantidad();
+        montoDeVentas = pedidos.stream()
+                .filter(pedido -> pedido != null)
+                .map(Pedido::getValorTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
 
-            if (!categoriasProcesadas.contains(pedidoActual.getCategoria())) {
-                totalDeCategorias++;
-                categoriasProcesadas.add(pedidoActual.getCategoria());
-            }
-        }
+        totalDeProductosVendidos = pedidos.stream()
+                .filter(pedido -> pedido != null)
+                .mapToInt(Pedido::getCantidad)
+                .sum();
+
+        pedidos.stream()
+                .filter(pedido -> pedido != null) // Filtramos los pedidos nulos
+                .forEach(pedidoActual -> {
+
+
+                    if (pedidoMasBarato == null || pedidoActual.isMasBaratoQue(pedidoMasBarato)) {
+                        pedidoMasBarato = pedidoActual;
+                    }
+
+                    if (pedidoMasCaro == null || pedidoActual.isMasCaroQue(pedidoMasCaro)) {
+                        pedidoMasCaro = pedidoActual;
+                    }
+
+                    categoriasProcesadas.add(pedidoActual.getCategoria());
+                });
+
+        totalDeCategorias = categoriasProcesadas.size();
     }
+
 
     public int getTotalDeProductosVendidos() {
         return totalDeProductosVendidos;
