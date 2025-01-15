@@ -1,7 +1,10 @@
 package com.alura.comex;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class InformeSintetico {
 
@@ -52,19 +55,28 @@ public class InformeSintetico {
         return totalDePedidosRealizados;
     }
 
-    public BigDecimal getMontoDeVentas() {
-        return montoDeVentas;
+    public String getMontoDeVentas() {
+        return NumberFormat.getCurrencyInstance(new Locale("es","CR")).format(montoDeVentas.setScale(2, RoundingMode.HALF_DOWN));
     }
 
-    public Pedido getPedidoMasBarato() {
-        return pedidoMasBarato;
+    public String getPedidoMasBaratoPrecio() {
+        return NumberFormat.getCurrencyInstance(new Locale("es", "CR")).format(pedidoMasBarato.getPrecio().multiply(new BigDecimal(pedidoMasBarato.getCantidad())).setScale(2, RoundingMode.HALF_DOWN));
     }
 
-    public Pedido getPedidoMasCaro() {
-        return pedidoMasCaro;
+    public String getPedidoMasBaratoProducto(){
+        return pedidoMasBarato.getProducto();
+    }
+
+    public String getPedidoMasCaroPrecio() {
+        return NumberFormat.getCurrencyInstance(new Locale("es", "CR")).format(pedidoMasCaro.getPrecio().multiply(new BigDecimal(pedidoMasCaro.getCantidad())).setScale(2, RoundingMode.HALF_DOWN));
+    }
+    public String getPedidoMasCaroProducto(){
+        return pedidoMasCaro.getProducto();
     }
 
     public int getTotalDeCategorias() {
         return totalDeCategorias;
     }
+
+
 }
