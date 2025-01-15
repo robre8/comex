@@ -10,8 +10,6 @@ public class Main {
         InformeSintetico informeSintetico = new InformeSintetico(pedidos);
 
 
-
-
         System.out.println("#### INFORME DE VALORES TOTALES");
         System.out.printf("- TOTAL DE PEDIDOS REALIZADOS: %s\n", informeSintetico.getTotalDePedidosRealizados());
         System.out.printf("- TOTAL DE PRODUCTOS VENDIDOS: %s\n", informeSintetico.getTotalDeProductosVendidos());
