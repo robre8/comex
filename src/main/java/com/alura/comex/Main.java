@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         ProcesadorDeCsv procesadorDeCsv = new ProcesadorDeCsv();
         ArrayList<Pedido> pedidos = procesadorDeCsv.listaDePedidos("pedidos.csv");
 
