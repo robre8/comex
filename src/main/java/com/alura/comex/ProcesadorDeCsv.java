@@ -9,12 +9,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ProcesadorDeCsv {
+public class ProcesadorDeCsv implements Procesador {
 
-    public ArrayList<Pedido> listaDePedidos(String pedidosCsv) {
+    public ArrayList<Pedido> procesar(String tipoArchivo) {
         ArrayList<Pedido> listaDePedidos = new ArrayList<>();
         try {
-            URL recursoCSV = ClassLoader.getSystemResource(pedidosCsv);
+            URL recursoCSV = ClassLoader.getSystemResource(tipoArchivo);
             Path caminoDelArchivo = caminoDelArchivo = Path.of(recursoCSV.toURI());
 
             Scanner lectorDeLineas = new Scanner(caminoDelArchivo);

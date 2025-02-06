@@ -3,10 +3,10 @@ package com.alura.comex;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
+
 import java.time.LocalDate;
 
 public class Pedido {
-
 
     private String categoria;
     private String producto;
@@ -51,11 +51,14 @@ public class Pedido {
         return fecha;
     }
 
-    public BigDecimal getValorTotal() { return this.precio.multiply(new BigDecimal(this.cantidad));}
+    public BigDecimal getValorTotal() {
+        return this.precio.multiply(new BigDecimal(this.cantidad));}
 
-    public boolean isMasBaratoQue(@NotNull Pedido otroPedido) { return this.getValorTotal().compareTo(otroPedido.getValorTotal()) < 0;}
+    public boolean isMasBaratoQue(@NotNull Pedido otroPedido) {
+        return this.getValorTotal().compareTo(otroPedido.getValorTotal()) < 0;}
 
-    public boolean isMasCaroQue(@NotNull Pedido otroPedido) {return this.getValorTotal().compareTo(otroPedido.getValorTotal()) > 0;}
+    public boolean isMasCaroQue(@NotNull Pedido otroPedido) {
+        return this.getValorTotal().compareTo(otroPedido.getValorTotal()) > 0;}
 
 
 
