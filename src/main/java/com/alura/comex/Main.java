@@ -19,8 +19,11 @@ public class Main {
             // Cálculo del informe de ventas por categoría
             List<VentasPorCategoria> ventasPorCategoria = CalculadoraVentasPorCategoria.calcular(pedidos);
 
-            // Mostrar el informe completo: estadísticas generales seguidas del informe por categoría
-            VisualizadorInforme.mostrar(stats, ventasPorCategoria);
+            // Calcular el informe de productos más vendidos.
+            List<ProductoMasVendido> productosMasVendidos = CalculadoraProductosMasVendidos.calcular(pedidos);
+
+            // Mostrar el informe completo: estadísticas generales seguidas del informe por categoría, y productos mas vendidos
+            VisualizadorInforme.mostrar(stats, ventasPorCategoria, productosMasVendidos);
 
 
         } catch (IOException e) {

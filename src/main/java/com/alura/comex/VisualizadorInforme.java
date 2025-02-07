@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+
 
 public class VisualizadorInforme {
     private static final NumberFormat FORMATO_MONEDA =
@@ -34,6 +34,20 @@ public class VisualizadorInforme {
             System.out.printf("CATEGORÍA: %s\n", venta.getCategoria());
             System.out.printf("CANTIDAD VENDIDA: %d\n", venta.getCantidadVendida());
             System.out.printf("MONTO: %s\n\n", formatearMoneda(venta.getMontoVentas()));
+        }
+    }
+    // Nuevo método que muestra el informe de productos más vendidos
+    public static void mostrar(CalculadoraEstadisticas.Estadisticas estadisticas,
+                               List<VentasPorCategoria> ventasPorCategoria,
+                               List<ProductoMasVendido> productosMasVendidos) {
+
+        mostrar(estadisticas, ventasPorCategoria);
+
+        // Sección de productos más vendidos.
+        System.out.println("\n#### INFORME DE PRODUCTOS MÁS VENDIDOS");
+        for (ProductoMasVendido p : productosMasVendidos) {
+            System.out.printf("PRODUCTO: %s\n", p.getProducto());
+            System.out.printf("CANTIDAD: %d\n\n", p.getCantidad());
         }
     }
 
