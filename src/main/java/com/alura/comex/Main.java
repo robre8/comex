@@ -22,8 +22,12 @@ public class Main {
             // Calcular el informe de productos más vendidos.
             List<ProductoMasVendido> productosMasVendidos = CalculadoraProductosMasVendidos.calcular(pedidos);
 
-            // Mostrar el informe completo: estadísticas generales seguidas del informe por categoría, y productos mas vendidos
-            VisualizadorInforme.mostrar(stats, ventasPorCategoria, productosMasVendidos);
+            // Calcular el informe de productos más caros por categoría.
+            List<ProductoMasCaroPorCategoria> productosMasCaros = CalculadoraProductoMasCaroPorCategoria.calcular(pedidos);
+
+            // Mostrar el informe completo: estadísticas generales, ventas por categoría,
+            // productos más vendidos y productos más caros por categoría.
+            VisualizadorInforme.mostrar(stats, ventasPorCategoria, productosMasVendidos, productosMasCaros);
 
 
         } catch (IOException e) {

@@ -36,18 +36,33 @@ public class VisualizadorInforme {
             System.out.printf("MONTO: %s\n\n", formatearMoneda(venta.getMontoVentas()));
         }
     }
-    // Nuevo método que muestra el informe de productos más vendidos
+    // Método que muestra el informe de productos más vendidos
     public static void mostrar(CalculadoraEstadisticas.Estadisticas estadisticas,
                                List<VentasPorCategoria> ventasPorCategoria,
                                List<ProductoMasVendido> productosMasVendidos) {
-
         mostrar(estadisticas, ventasPorCategoria);
-
         // Sección de productos más vendidos.
         System.out.println("\n#### INFORME DE PRODUCTOS MÁS VENDIDOS");
         for (ProductoMasVendido p : productosMasVendidos) {
             System.out.printf("PRODUCTO: %s\n", p.getProducto());
             System.out.printf("CANTIDAD: %d\n\n", p.getCantidad());
+        }
+    }
+
+    // Método que añade al informe la sección de productos más caros por categoría
+    public static void mostrar(CalculadoraEstadisticas.Estadisticas estadisticas,
+                               List<VentasPorCategoria> ventasPorCategoria,
+                               List<ProductoMasVendido> productosMasVendidos,
+                               List<ProductoMasCaroPorCategoria> productosMasCaros) {
+        // Se muestra primero el informe completo
+        mostrar(estadisticas, ventasPorCategoria, productosMasVendidos);
+
+
+        System.out.println("\n#### INFORME DE PRODUCTOS MÁS CAROS POR CATEGORÍA");
+        for (ProductoMasCaroPorCategoria item : productosMasCaros) {
+            System.out.printf("CATEGORIA: %s\n", item.getCategoria());
+            System.out.printf("PRODUCTO: %s\n", item.getProducto());
+            System.out.printf("PRECIO: %s\n\n", formatearMoneda(item.getPrecio()));
         }
     }
 
