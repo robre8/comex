@@ -2,6 +2,7 @@ package com.alura.comex;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ public class VisualizadorInforme {
             NumberFormat.getCurrencyInstance(new Locale("es", "CR"));
 
     public static void mostrar(CalculadoraEstadisticas.Estadisticas estadisticas) {
+
         System.out.println("#### INFORME DE VALORES TOTALES");
         System.out.printf("- TOTAL DE PEDIDOS REALIZADOS: %d\n", estadisticas.getTotalPedidos());
         System.out.printf("- TOTAL DE PRODUCTOS VENDIDOS: %d\n", estadisticas.getTotalProductos());
@@ -22,6 +24,17 @@ public class VisualizadorInforme {
         estadisticas.getPedidosPorCliente().forEach((cliente, cantidad) ->
                 System.out.printf("- %-20s: %d pedidos\n", cliente, cantidad)
         );
+    }
+
+    // método que muestra el informe de ventas por categoría
+    public static void mostrar(CalculadoraEstadisticas.Estadisticas estadisticas, List<VentasPorCategoria> ventasPorCategoria) {
+
+        System.out.println("\n#### INFORME DE VENTAS POR CATEGORÍA");
+        for (VentasPorCategoria venta : ventasPorCategoria) {
+            System.out.printf("CATEGORÍA: %s\n", venta.getCategoria());
+            System.out.printf("CANTIDAD VENDIDA: %d\n", venta.getCantidadVendida());
+            System.out.printf("MONTO: %s\n\n", formatearMoneda(venta.getMontoVentas()));
+        }
     }
 
     private static String formatearMoneda(BigDecimal valor) {

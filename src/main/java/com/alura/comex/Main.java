@@ -2,7 +2,8 @@ package com.alura.comex;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.List;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -14,6 +15,12 @@ public class Main {
             CalculadoraEstadisticas.Estadisticas stats =
                     CalculadoraEstadisticas.calcular(pedidos);
             VisualizadorInforme.mostrar(stats);
+
+            // Cálculo del informe de ventas por categoría
+            List<VentasPorCategoria> ventasPorCategoria = CalculadoraVentasPorCategoria.calcular(pedidos);
+
+            // Mostrar el informe completo: estadísticas generales seguidas del informe por categoría
+            VisualizadorInforme.mostrar(stats, ventasPorCategoria);
 
 
         } catch (IOException e) {
