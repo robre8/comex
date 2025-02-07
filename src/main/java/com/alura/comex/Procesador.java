@@ -5,5 +5,5 @@ import java.util.ArrayList;
 
 
 public interface Procesador {
-    ArrayList<Pedido> procesar(String tipoArchivo) throws IOException;
+    ArrayList<Pedido> procesar(String rutaArchivo) throws IOException;
 }

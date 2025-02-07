@@ -1,28 +1,24 @@
 package com.alura.comex;
 
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class Main {
-
     public static void main(String[] args) {
+        try {
+            Procesador procesador = ProcesadorFactory.crear("csv");
+            ArrayList<Pedido> pedidos = procesador.procesar("pedidos.csv");
+
+            // Informe de valores totales
+            CalculadoraEstadisticas.Estadisticas stats =
+                    CalculadoraEstadisticas.calcular(pedidos);
+            VisualizadorInforme.mostrar(stats);
 
 
-            ProcesadorDeCsv procesadorDeCsv = new ProcesadorDeCsv();
-            ArrayList<Pedido> pedidos = procesadorDeCsv.procesar("pedidos.csv");
-            ProcesadorDeJson procesadorDeJson = new ProcesadorDeJson();
-           // ArrayList<Pedido> pedidos = procesadorDeJson.procesar("pedidos.json");
-
-            InformeSintetico Sintetico = new InformeSintetico(pedidos);
-
-
-            System.out.println("#### INFORME DE VALORES TOTALES");
-            System.out.printf("- TOTAL DE PEDIDOS REALIZADOS: %s\n", Sintetico.getTotalDePedidosRealizados());
-            System.out.printf("- TOTAL DE PRODUCTOS VENDIDOS: %s\n", Sintetico.getTotalDeProductosVendidos());
-            System.out.printf("- TOTAL DE CATEGORIAS: %s\n", Sintetico.getTotalDeCategorias());
-            System.out.printf("- MONTO DE VENTAS: %s\n", Sintetico.getMontoDeVentas());
-            System.out.printf("- PEDIDO MAS BARATO: %s (%s)\n", Sintetico.getPedidoMasBaratoPrecio(), Sintetico.getPedidoMasBaratoProducto());
-            System.out.printf("- PEDIDO MAS CARO: %s (%s)\n", Sintetico.getPedidoMasCaroPrecio(), Sintetico.getPedidoMasCaroProducto());
-
+        } catch (IOException e) {
+            System.err.println("Error procesando archivo: " + e.getMessage());
         }
     }
+}
 

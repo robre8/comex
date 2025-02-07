@@ -1,30 +1,31 @@
 package com.alura.comex;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.math.BigDecimal;
-
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Pedido {
+    private final String categoria;
+    private final String producto;
+    private final String cliente;
+    private final BigDecimal precio;
+    private final int cantidad;
+    private final LocalDate fecha;
 
-    private String categoria;
-    private String producto;
-    private String cliente;
-
-    private BigDecimal precio;
-    private int cantidad;
-
-    private LocalDate fecha;
-
-    public Pedido(String categoria, String producto, String cliente, BigDecimal precio, int cantidad, LocalDate fecha) {
-        this.categoria = categoria;
-        this.producto = producto;
-        this.cliente = cliente;
-        this.precio = precio;
+    public Pedido(String categoria, String producto, String cliente,
+                  BigDecimal precio, int cantidad, LocalDate fecha) {
+        this.categoria = Objects.requireNonNull(categoria, "Categoría no puede ser nula");
+        this.producto = Objects.requireNonNull(producto, "Producto no puede ser nulo");
+        this.cliente = Objects.requireNonNull(cliente, "Cliente no puede ser nulo");
+        this.precio = Objects.requireNonNull(precio, "Precio no puede ser nulo");
+        if (cantidad <= 0) throw new IllegalArgumentException("Cantidad inválida: " + cantidad);
         this.cantidad = cantidad;
-        this.fecha = fecha;
+        this.fecha = Objects.requireNonNull(fecha, "Fecha no puede ser nula");
+    }
 
+
+    public BigDecimal getValorTotal() {
+        return precio.multiply(BigDecimal.valueOf(cantidad));
     }
 
     public String getCategoria() {
@@ -50,29 +51,4 @@ public class Pedido {
     public LocalDate getFecha() {
         return fecha;
     }
-
-    public BigDecimal getValorTotal() {
-        return this.precio.multiply(new BigDecimal(this.cantidad));}
-
-    public boolean isMasBaratoQue(@NotNull Pedido otroPedido) {
-        return this.getValorTotal().compareTo(otroPedido.getValorTotal()) < 0;}
-
-    public boolean isMasCaroQue(@NotNull Pedido otroPedido) {
-        return this.getValorTotal().compareTo(otroPedido.getValorTotal()) > 0;}
-
-
-
-
-    @Override
-    public String toString() {
-        return "Pedido{" +
-                "categoria='" + categoria + '\'' +
-                ", producto='" + producto + '\'' +
-                ", cliente='" + cliente + '\'' +
-                ", precio=" + precio +
-                ", cantidad=" + cantidad +
-                ", fecha=" + fecha +
-                '}';
-    }
-
 }

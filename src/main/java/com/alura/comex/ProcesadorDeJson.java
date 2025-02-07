@@ -1,7 +1,6 @@
 package com.alura.comex;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -13,47 +12,31 @@ import java.util.Arrays;
 public class ProcesadorDeJson implements Procesador {
 
     @Override
-    public ArrayList<Pedido> procesar(String tipoArchivo) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public ArrayList<Pedido> procesar(String rutaArchivo) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream(rutaArchivo)) {
+            if (input == null) throw new IOException("Archivo no encontrado: " + rutaArchivo);
 
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(tipoArchivo);
-
-        if (inputStream == null) {
-            throw new IOException("Archivo no encontrado: " + tipoArchivo);
-        }
-
-        PedidoJson[] pedidosJson;
-        try {
-            pedidosJson = objectMapper.readValue(inputStream, PedidoJson[].class);
-        } catch (IOException e) {
-            throw new IOException("Error al leer o procesar el archivo JSON", e);
-        }
-
-        // Convertir el arreglo de PedidoJson a una lista de objetos Pedido
-        return (ArrayList<Pedido>) Arrays.stream(pedidosJson)
-                .map(pedidoJson -> new Pedido(
-                        pedidoJson.getCategoria(),
-                        pedidoJson.getProducto(),
-                        pedidoJson.getCliente(),
-                        pedidoJson.getPrecio(),
-                        pedidoJson.getCantidad(),
-                        parseFecha(pedidoJson.getFecha())
-                ))
-                .toList();
-    }
-
-    // Método para parsear las fechas en formato "dd/MM/yyyy"
-    private LocalDate parseFecha(String fecha) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        try {
-            return LocalDate.parse(fecha, formatter);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Fecha en formato incorrecto: " + fecha, e);
+            PedidoDTO[] pedidosDTO = mapper.readValue(input, PedidoDTO[].class);
+            return new ArrayList<>(Arrays.stream(pedidosDTO)
+                    .map(this::mapearAPedido)
+                    .toList());
         }
     }
 
+    private Pedido mapearAPedido(PedidoDTO dto) {
+        return new Pedido(
+                dto.getCategoria(),
+                dto.getProducto(),
+                dto.getCliente(),
+                dto.getPrecio(),
+                dto.getCantidad(),
+                LocalDate.parse(dto.getFecha(), DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+        );
+    }
 
-    private static class PedidoJson {
+    // Clase DTO interna
+    private static class PedidoDTO {
         private String categoria;
         private String producto;
         private BigDecimal precio;

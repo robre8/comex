@@ -1,4 +1,5 @@
 package com.alura.comex;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
@@ -11,40 +12,34 @@ import java.util.Scanner;
 
 public class ProcesadorDeCsv implements Procesador {
 
-    public ArrayList<Pedido> procesar(String tipoArchivo) {
-        ArrayList<Pedido> listaDePedidos = new ArrayList<>();
+    @Override
+    public ArrayList<Pedido> procesar(String rutaArchivo) throws IOException {
+        ArrayList<Pedido> pedidos = new ArrayList<>();
         try {
-            URL recursoCSV = ClassLoader.getSystemResource(tipoArchivo);
-            Path caminoDelArchivo = caminoDelArchivo = Path.of(recursoCSV.toURI());
+            URL recurso = ClassLoader.getSystemResource(rutaArchivo);
+            Path ruta = Path.of(recurso.toURI());
 
-            Scanner lectorDeLineas = new Scanner(caminoDelArchivo);
-
-            lectorDeLineas.nextLine();
-
-            int cantidadDeRegistros = 0;
-            while (lectorDeLineas.hasNextLine()) {
-                String linea = lectorDeLineas.nextLine();
-                String[] registro = linea.split(",");
-
-                String categoria = registro[0];
-                String producto = registro[1];
-                BigDecimal precio = new BigDecimal(registro[2]);
-                int cantidad = Integer.parseInt(registro[3]);
-                LocalDate fecha = LocalDate.parse(registro[4], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                String cliente = registro[5];
-
-                Pedido pedido = new Pedido(categoria, producto, cliente, precio, cantidad, fecha);
-                listaDePedidos.add(pedido);
-
-                cantidadDeRegistros++;
+            try (Scanner scanner = new Scanner(ruta)) {
+                scanner.nextLine(); // Saltar cabecera
+                while (scanner.hasNextLine()) {
+                    String[] campos = scanner.nextLine().split(",");
+                    pedidos.add(mapearAPedido(campos));
+                }
             }
-        } catch (
-                URISyntaxException e) {
-            throw new RuntimeException("Archivo pedido.csv no localizado!");
-        } catch (
-                IOException e) {
-            throw new RuntimeException("Error al abrir Scanner para procesar archivo!");
+        } catch (URISyntaxException e) {
+            throw new IOException("Error en la ruta del archivo: " + rutaArchivo, e);
         }
-        return listaDePedidos;
+        return pedidos;
+    }
+
+    private Pedido mapearAPedido(String[] campos) {
+        String categoria = campos[0];
+        String producto = campos[1];
+        BigDecimal precio = new BigDecimal(campos[2]);
+        int cantidad = Integer.parseInt(campos[3]);
+        LocalDate fecha = LocalDate.parse(campos[4], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String cliente = campos[5];
+
+        return new Pedido(categoria, producto, cliente, precio, cantidad, fecha);
     }
 }
