@@ -29,7 +29,6 @@ public class Main {
             // productos más vendidos y productos más caros por categoría.
             VisualizadorInforme.mostrar(stats, ventasPorCategoria, productosMasVendidos, productosMasCaros);
 
-
         } catch (IOException e) {
             System.err.println("Error procesando archivo: " + e.getMessage());
         }
