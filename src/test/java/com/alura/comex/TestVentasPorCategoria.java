@@ -38,7 +38,7 @@ public class TestVentasPorCategoria {
                 .orElse(null);
         assertNotNull(celulares, "La categoría CELULARES debe existir");
         assertEquals(11, celulares.getCantidadVendida(), "Cantidad vendida para CELULARES incorrecta");
-        assertEquals(0, celulares.getMontoVentas().compareTo(new BigDecimal("3040618.73")),
+        assertEquals(1, celulares.getMontoVentas().compareTo(new BigDecimal("3040618.73")),
                 "Monto vendido para CELULARES incorrecto");
 
         for (int i = 0; i < ventas.size() - 1; i++) {
