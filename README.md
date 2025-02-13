@@ -1,6 +1,5 @@
 # Docker:
-https://hub.docker.com/repositories/robre8/comex-app/general
-
+https://hub.docker.com/r/robre8/comex-app
 # Comex
 
 ## Información general de los pedidos en _pedidos.csv_
